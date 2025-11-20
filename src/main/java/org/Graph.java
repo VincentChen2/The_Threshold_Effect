@@ -1,36 +1,47 @@
 package org;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class Graph {
     private final int n;
     private final double p;
     private final Random random;
     private final Map<Integer, Set<Integer>> adjacencyList;
+    private Consumer<String> progressCallback;
 
-    public Graph(int n, double p) {
+    public Graph(int n, double p, Consumer<String> progressCallback) {
         this.n = n;
         this.p = p;
         this.random = new Random();
         this.adjacencyList = new HashMap<>(n);
+        this.progressCallback = progressCallback;
 
         generateGraph();
     }
 
     private void generateGraph() {
-        //Initialize all vertices
+        // Initialize all vertices
         for (int i = 0; i < n; i++) {
             adjacencyList.put(i, new HashSet<>());
         }
 
-        //Generate edges
+        // Generate edges
         for (int i = 0; i < n; i++) {
+            if (progressCallback != null) {
+                progressCallback.accept("Generating Graph... (" + (i + 1) + "/" + n + ") vertices completed");
+            }
+
             for (int j = i + 1; j < n; j++) {
                 if (random.nextDouble() < p) {
                     adjacencyList.get(i).add(j);
                     adjacencyList.get(j).add(i);
                 }
             }
+        }
+
+        if (progressCallback != null) {
+            progressCallback.accept("Generated Graph");
         }
     }
 

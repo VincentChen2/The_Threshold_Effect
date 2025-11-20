@@ -1,8 +1,21 @@
 package org;
 
+import javax.swing.*;
+
 public class Main {
     public static void main(String[] args) {
-        Graph graph = new Graph(10, 0.5);
-        System.out.println(graph);
+        try {
+            UIManager.setLookAndFeel(UIManager.getLookAndFeel());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                MainFrame frame = new MainFrame();
+                frame.setVisible(true);
+            }
+        });
     }
 }
