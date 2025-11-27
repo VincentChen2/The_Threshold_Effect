@@ -8,7 +8,8 @@ public class Graph {
     private final double p;
     private final Random random;
     private final Map<Integer, Set<Integer>> adjacencyList;
-    private Consumer<String> progressCallback;
+    private final Consumer<String> progressCallback;
+    private boolean hasAnyEdge;
 
     public Graph(int n, double p, Consumer<String> progressCallback) {
         this.n = n;
@@ -16,17 +17,18 @@ public class Graph {
         this.random = new Random();
         this.adjacencyList = new HashMap<>(n);
         this.progressCallback = progressCallback;
+        this.hasAnyEdge = false;
 
         generateGraph();
     }
 
     private void generateGraph() {
-        // Initialize all vertices
+        //Initialize all vertices
         for (int i = 0; i < n; i++) {
             adjacencyList.put(i, new HashSet<>());
         }
 
-        // Generate edges
+        //Generate edges
         for (int i = 0; i < n; i++) {
             if (progressCallback != null) {
                 progressCallback.accept("Generating Graph... (" + (i + 1) + "/" + n + ") vertices completed");
@@ -36,6 +38,7 @@ public class Graph {
                 if (random.nextDouble() < p) {
                     adjacencyList.get(i).add(j);
                     adjacencyList.get(j).add(i);
+                    hasAnyEdge = true;
                 }
             }
         }
@@ -47,6 +50,10 @@ public class Graph {
 
     public boolean hasEdge(int u, int v) {
         return adjacencyList.get(u).contains(v);
+    }
+
+    public boolean hasAnyEdge() {
+        return hasAnyEdge;
     }
 
     public Set<Integer> getNeighbors(int vertex) {
