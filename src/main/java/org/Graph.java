@@ -57,22 +57,37 @@ public class Graph {
     }
 
     public boolean hasTriangle() {
-        //For each vertex, check all pairs of its neighbors to see if they're connected
         for (int u = 0; u < n; u++) {
-            Integer[] neighborsArray = getNeighbors(u).toArray(new Integer[0]);
+            if (getDegree(u) < 2) continue;
 
-            //Check all pairs of neighbors of u
-            for (int i = 0; i < neighborsArray.length; i++) {
-                int v = neighborsArray[i];
+            Set<Integer> neighborsU = getNeighbors(u);
+
+            for (int v : neighborsU) {
                 if (v <= u) continue;
+                if (getDegree(v) < 2) continue;
+                if (!Collections.disjoint(neighborsU, getNeighbors(v))) return true;
+            }
+        }
+        return false;
+    }
 
-                for (int j = i + 1; j < neighborsArray.length; j++) {
-                    int w = neighborsArray[j];
-                    if (w <= u) continue;
+    public boolean hasK4() {
+        for (int u = 0; u < n; u++) {
+            if (getDegree(u) < 3) continue;
 
-                    if (hasEdge(v, w)) {
-                        return true;
-                    }
+            Set<Integer> neighborsU = getNeighbors(u);
+
+            for (int v : neighborsU) {
+                if (v <= u) continue;
+                if (getDegree(v) < 3) continue;
+
+                Set<Integer> UnionUV = new HashSet<>(neighborsU);
+                UnionUV.retainAll(getNeighbors(v));
+
+                for (int w : UnionUV) {
+                    if (w <= v) continue;
+                    if (getDegree(w) < 3) continue;
+                    if (!Collections.disjoint(UnionUV, getNeighbors(w))) return true;
                 }
             }
         }

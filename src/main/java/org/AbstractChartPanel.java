@@ -113,7 +113,7 @@ public abstract class AbstractChartPanel extends JPanel {
         }
 
         //True Proportions Dataset
-        XYSeries trueProportionsSeries = new XYSeries("Empirical Proportion");
+        XYSeries trueProportionsSeries = new XYSeries("True Proportion");
         for (int i = 0; i < pValues.length; i++) {
             trueProportionsSeries.add(pValues[i], proportions[i]);
         }
@@ -149,10 +149,10 @@ public abstract class AbstractChartPanel extends JPanel {
         }
 
         //Plot Data Points of True Proportions
-        XYLineAndShapeRenderer empiricalRenderer = new XYLineAndShapeRenderer(false, true);
-        empiricalRenderer.setSeriesShape(0, new Ellipse2D.Double(-3, -3, 6, 6));
-        empiricalRenderer.setSeriesPaint(0, Color.BLUE);
-        plot.setRenderer(0, empiricalRenderer);
+        XYLineAndShapeRenderer TrueRenderer = new XYLineAndShapeRenderer(false, true);
+        TrueRenderer.setSeriesShape(0, new Ellipse2D.Double(-3, -3, 6, 6));
+        TrueRenderer.setSeriesPaint(0, Color.BLUE);
+        plot.setRenderer(0, TrueRenderer);
 
         //Horizontal Axis Scaling
         NumberAxis xAxis = (NumberAxis) plot.getDomainAxis();
@@ -181,7 +181,7 @@ public abstract class AbstractChartPanel extends JPanel {
     protected abstract String getYAxisLabel();
     protected abstract boolean hasProperty(Graph graph);
 
-    //Optional Abstract Method
+    //Optional Abstract Method (probably will make this mandatory later)
     protected XYSeries createTheoreticalSeries(int n, double xAxisStart, double xAxisEnd) {
         return null;
     }
