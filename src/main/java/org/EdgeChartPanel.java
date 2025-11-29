@@ -66,7 +66,6 @@ public class EdgeChartPanel extends JPanel {
         //Input Values from Graph Controller
         InputPanel inputPanel = controller.getInputPanel();
         int n = inputPanel.getNValue();
-        boolean usePRange = inputPanel.isPRangeMode();
 
         //Group Graphs by p
         Map<Double, List<Graph>> graphsByP = new HashMap<>();
@@ -126,14 +125,8 @@ public class EdgeChartPanel extends JPanel {
 
         //Sets Range of Probability Curve
         //TODO: Fix range offset
-        double xAxisStart, xAxisEnd;
-        if (usePRange) {
-            xAxisStart = inputPanel.getPStart();
-            xAxisEnd = inputPanel.getPEnd();
-        } else {
-            xAxisStart = Math.max(0, minP - 0.1);
-            xAxisEnd = Math.min(1.0, maxP + 0.1);
-        }
+        double xAxisStart = inputPanel.getPStart();
+        double xAxisEnd = inputPanel.getPEnd();
 
         //FIXME: Fix this padding
         double theoryPadding = (xAxisEnd - xAxisStart) * 0.05;

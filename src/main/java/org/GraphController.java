@@ -67,104 +67,7 @@ public class GraphController {
         statusPanel.setProgressVisible(true);
         clearGeneratedGraphs();
 
-        if (inputPanel.isPRangeMode()) {
-            generatePRangeGraphs();
-        } else {
-            generateSinglePGraphs();
-        }
-    }
-
-    private void generateSinglePGraphs() {
-        int numGraphs = inputPanel.getNumGraphs();
-
-        if (numGraphs == 1) {
-            statusPanel.setStatus("Generating Graph... (0/0) vertices completed");
-        } else {
-            statusPanel.setStatus("Generating " + numGraphs + " graphs... (0%)");
-        }
-
-        //Run graph generation in a separate thread to keep UI responsive
-        SwingWorker<Void, GraphProgressUpdate> worker = new SwingWorker<Void, GraphProgressUpdate>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                int n = inputPanel.getNValue();
-                double p = inputPanel.getPValue();
-                int totalGraphs = inputPanel.getNumGraphs();
-
-                for (int graphIndex = 0; graphIndex < totalGraphs; graphIndex++) {
-                    final int currentGraphIndex = graphIndex;
-                    Graph graph = new Graph(n, p, progress -> {
-                        if (totalGraphs == 1) {
-                            publish(new GraphProgressUpdate(progress, currentGraphIndex, totalGraphs));
-                        } else {
-                            String graphProgress = String.format("Generating graph %d of %d: %s",
-                                    currentGraphIndex + 1, totalGraphs, progress);
-                            publish(new GraphProgressUpdate(graphProgress, currentGraphIndex, totalGraphs));
-                        }
-                    });
-
-                    addGraph(graph);
-
-                    int overallProgress = (int) (((double) (currentGraphIndex + 1) / totalGraphs) * 100);
-                    publish(new GraphProgressUpdate(null, currentGraphIndex + 1, totalGraphs, overallProgress));
-                }
-                return null;
-            }
-
-            @Override
-            protected void process(java.util.List<GraphProgressUpdate> chunks) {
-                if (!chunks.isEmpty()) {
-                    GraphProgressUpdate latestUpdate = chunks.getLast();
-
-                    if (latestUpdate.message != null) {
-                        statusPanel.setStatus(latestUpdate.message);
-                    } else {
-                        int totalGraphs = latestUpdate.totalGraphs;
-                        int completed = latestUpdate.completedGraphs;
-                        if (totalGraphs == 1) {
-                            statusPanel.setStatus("Generating Graph... completed");
-                        } else {
-                            statusPanel.setStatus(String.format("Generated %d of %d graphs", completed, totalGraphs));
-                        }
-                    }
-
-                    if (latestUpdate.overallProgress >= 0) {
-                        statusPanel.setProgress(latestUpdate.overallProgress);
-                    }
-                }
-            }
-
-            @Override
-            protected void done() {
-                try {
-                    get();
-
-                    if (getGeneratedGraphs().isEmpty()) {
-                        statusPanel.setStatus("No graphs were generated");
-                    } else {
-                        setCurrentGraph(getGeneratedGraphs().getLast());
-
-                        int totalGraphs = getGeneratedGraphs().size();
-                        if (totalGraphs == 1) {
-                            statusPanel.setStatus("Successfully generated 1 graph");
-                        } else {
-                            statusPanel.setStatus("Successfully generated " + totalGraphs + " graphs");
-                        }
-
-                        updateCharts();
-                    }
-
-                } catch (Exception e) {
-                    statusPanel.setStatus("Error generating graphs: " + e.getMessage());
-                    e.printStackTrace();
-                } finally {
-                    inputPanel.setGenerateButtonEnabled(true);
-                    statusPanel.setProgressVisible(false);
-                }
-            }
-        };
-
-        worker.execute();
+        generatePRangeGraphs();
     }
 
     private void generatePRangeGraphs() {
@@ -179,7 +82,7 @@ public class GraphController {
         //Run graph generation in a separate thread to keep UI responsive
         SwingWorker<Void, GraphProgressUpdate> worker = new SwingWorker<Void, GraphProgressUpdate>() {
             @Override
-            protected Void doInBackground() throws Exception {
+            protected Void doInBackground() {
                 int n = inputPanel.getNValue();
                 int totalGraphs = pSteps * graphsPerP;
                 double pStepSize = (pEnd - pStart) / (pSteps - 1);

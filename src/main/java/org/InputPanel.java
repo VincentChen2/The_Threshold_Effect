@@ -1,8 +1,6 @@
 package org;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,11 +9,8 @@ public class InputPanel extends JPanel {
     private final GraphController controller;
 
     private JSlider nSlider;
-    private JSpinner pSpinner;
-    private JSpinner numGraphsSpinner;
     private JButton generateButton;
     private JLabel nValueLabel;
-    private JCheckBox usePRangeCheckbox;
     private JSpinner pStartSpinner;
     private JSpinner pEndSpinner;
     private JSpinner pStepsSpinner;
@@ -61,12 +56,7 @@ public class InputPanel extends JPanel {
         add(nValueLabel, gridBagConstraints);
 
         //Slider Action Listener (Updates Value Label)
-        nSlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                nValueLabel.setText("Value: " + nSlider.getValue());
-            }
-        });
+        nSlider.addChangeListener(e -> nValueLabel.setText("Value: " + nSlider.getValue()));
 
         //(n) Manual Input
         //(n) Manual Input Label
@@ -91,42 +81,24 @@ public class InputPanel extends JPanel {
         JButton applyNButton = new JButton("Apply");
 
         //(n) Manual Input Apply Button Listener
-        applyNButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int newValue = (Integer) nManualSpinner.getValue();
-                nSlider.setValue(newValue);
-            }
+        applyNButton.addActionListener(e -> {
+            int newValue = (Integer) nManualSpinner.getValue();
+            nSlider.setValue(newValue);
         });
         add(applyNButton, gridBagConstraints);
-
-        //(p) Range Checkbox
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 3;
-        usePRangeCheckbox = new JCheckBox("Use p range");
-        usePRangeCheckbox.addActionListener(new UsePRangeCheckboxListener());
-        assert usePRangeCheckbox != null;
-        add(usePRangeCheckbox, gridBagConstraints);
-
-        //Single (p) Panel
-        JPanel singlePPanel = createSinglePPanel();
 
         //(p) Range Panel
         JPanel pRangePanel = createPRangePanel();
 
-        //Add Panels
+        //Add Panel
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 3;
-        add(singlePPanel, gridBagConstraints);
-
-        gridBagConstraints.gridy = 5;
         add(pRangePanel, gridBagConstraints);
 
         //Generate Button
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.insets = new Insets(15, 5, 5, 5); // Extra top margin
         generateButton = new JButton("Generate Graphs");
@@ -136,38 +108,9 @@ public class InputPanel extends JPanel {
         add(generateButton, gridBagConstraints);
     }
 
-    private JPanel createSinglePPanel() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-        panel.setBorder(BorderFactory.createTitledBorder("Single p Mode"));
-
-        //(p) Parameter Label
-        JLabel pLabel = new JLabel("Edge probability (p):");
-        panel.add(pLabel);
-
-        //(p) Spinner - increased precision to thousandths
-        SpinnerModel pModel = new SpinnerNumberModel(0.5, 0.001, 1.0, 0.001);
-        pSpinner = new JSpinner(pModel);
-        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(pSpinner, "0.000");
-        pSpinner.setEditor(editor);
-        pSpinner.setPreferredSize(new Dimension(80, pSpinner.getPreferredSize().height));
-        panel.add(pSpinner);
-
-        //Number of Graphs Label
-        JLabel numGraphsLabel = new JLabel("Number of Graphs:");
-        panel.add(numGraphsLabel);
-
-        //Number of Graphs Spinner
-        numGraphsSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
-        numGraphsSpinner.setPreferredSize(new Dimension(60, numGraphsSpinner.getPreferredSize().height));
-        panel.add(numGraphsSpinner);
-
-        return panel;
-    }
-
     private JPanel createPRangePanel() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-        panel.setBorder(BorderFactory.createTitledBorder("p Range Mode"));
-        panel.setVisible(false);
+        panel.setBorder(BorderFactory.createTitledBorder("Probability Parameters"));
 
         //(p) Start Label
         JLabel pStartLabel = new JLabel("p start:");
@@ -216,18 +159,6 @@ public class InputPanel extends JPanel {
         return nSlider.getValue();
     }
 
-    public double getPValue() {
-        return ((Number) pSpinner.getValue()).doubleValue();
-    }
-
-    public int getNumGraphs() {
-        return (Integer) numGraphsSpinner.getValue();
-    }
-
-    public boolean isPRangeMode() {
-        return usePRangeCheckbox.isSelected();
-    }
-
     public double getPStart() {
         return ((Number) pStartSpinner.getValue()).doubleValue();
     }
@@ -250,26 +181,6 @@ public class InputPanel extends JPanel {
 
     public void generateGraphs() {
         controller.generateGraphs();
-    }
-
-    private class UsePRangeCheckboxListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Component[] components = getComponents();
-            JPanel singlePPanel = (JPanel) components[components.length - 3]; // single p panel
-            JPanel pRangePanel = (JPanel) components[components.length - 2]; // p range panel
-
-            if (usePRangeCheckbox.isSelected()) {
-                singlePPanel.setVisible(false);
-                pRangePanel.setVisible(true);
-            } else {
-                singlePPanel.setVisible(true);
-                pRangePanel.setVisible(false);
-            }
-
-            revalidate();
-            repaint();
-        }
     }
 
     private class GenerateButtonListener implements ActionListener {
