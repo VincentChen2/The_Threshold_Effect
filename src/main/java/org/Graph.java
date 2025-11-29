@@ -56,6 +56,29 @@ public class Graph {
         return hasAnyEdge;
     }
 
+    public boolean hasTriangle() {
+        //For each vertex, check all pairs of its neighbors to see if they're connected
+        for (int u = 0; u < n; u++) {
+            Integer[] neighborsArray = getNeighbors(u).toArray(new Integer[0]);
+
+            //Check all pairs of neighbors of u
+            for (int i = 0; i < neighborsArray.length; i++) {
+                int v = neighborsArray[i];
+                if (v <= u) continue;
+
+                for (int j = i + 1; j < neighborsArray.length; j++) {
+                    int w = neighborsArray[j];
+                    if (w <= u) continue;
+
+                    if (hasEdge(v, w)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public Set<Integer> getNeighbors(int vertex) {
         if (vertex < 0 || vertex >= n) {
             throw new IllegalArgumentException("Vertex index out of bounds: " + vertex);

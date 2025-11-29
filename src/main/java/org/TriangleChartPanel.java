@@ -18,12 +18,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EdgeChartPanel extends JPanel {
+public class TriangleChartPanel extends JPanel {
     private final GraphController controller;
     private ChartPanel chartPanel;
     private JFreeChart chart;
 
-    public EdgeChartPanel(GraphController controller) {
+    public TriangleChartPanel(GraphController controller) {
         this.controller = controller;
         initializeUI();
     }
@@ -44,9 +44,9 @@ public class EdgeChartPanel extends JPanel {
         XYSeriesCollection dataset = new XYSeriesCollection();
 
         return ChartFactory.createXYLineChart(
-                "Edge Existence Scatter Plot",
+                "Triangle (K3) Existence Scatter Plot",
                 "p value",
-                "Proportion of Graphs with Edges",
+                "Proportion of Graphs with Triangles",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true,
@@ -58,7 +58,7 @@ public class EdgeChartPanel extends JPanel {
     public void updateChart() {
         List<Graph> generatedGraphs = controller.getGeneratedGraphs();
 
-        //Skip Graph Update if No Graphs
+        //Skip Chart Update if No Graphs
         if (generatedGraphs.isEmpty()) {
             return;
         }
@@ -66,6 +66,8 @@ public class EdgeChartPanel extends JPanel {
         //Input Values from Graph Controller
         InputPanel inputPanel = controller.getInputPanel();
         int n = inputPanel.getNValue();
+        double xAxisStart = inputPanel.getPStart();
+        double xAxisEnd = inputPanel.getPEnd();
 
         //Group Graphs by p
         Map<Double, List<Graph>> graphsByP = new HashMap<>();
@@ -74,9 +76,9 @@ public class EdgeChartPanel extends JPanel {
             graphsByP.computeIfAbsent(p, k -> new ArrayList<>()).add(graph);
         }
 
-        //Calculates Proportions for Graph
+        //Calculate Proportions for Triangles
         double[] pValues = new double[graphsByP.size()];
-        double[] proportionsWithEdges = new double[graphsByP.size()];
+        double[] proportionsWithTriangles = new double[graphsByP.size()];
 
         int index = 0;
         double minP = Double.MAX_VALUE;
@@ -92,16 +94,16 @@ public class EdgeChartPanel extends JPanel {
             if (p < minP) minP = p;
             if (p > maxP) maxP = p;
 
-            int countWithEdges = 0;
+            int countWithTriangles = 0;
             for (Graph graph : graphs) {
-                if (graph.hasAnyEdge()) {
-                    countWithEdges++;
+                if (graph.hasTriangle()) {
+                    countWithTriangles++;
                 }
             }
 
-            double proportion = (double) countWithEdges / graphs.size();
+            double proportion = (double) countWithTriangles / graphs.size();
             pValues[index] = p;
-            proportionsWithEdges[index] = proportion;
+            proportionsWithTriangles[index] = proportion;
 
             //Scaling Vertical Axis
             if (proportion < minProportion) minProportion = proportion;
@@ -113,42 +115,19 @@ public class EdgeChartPanel extends JPanel {
         //True Proportions Dataset
         XYSeries trueProportionsSeries = new XYSeries("True Proportion");
         for (int i = 0; i < pValues.length; i++) {
-            trueProportionsSeries.add(pValues[i], proportionsWithEdges[i]);
+            trueProportionsSeries.add(pValues[i], proportionsWithTriangles[i]);
         }
 
         XYSeriesCollection trueProportionsDataset = new XYSeriesCollection();
         trueProportionsDataset.addSeries(trueProportionsSeries);
 
-        //Theoretical Probability Curve
-        double nChoose2 = (double) (n * (n - 1)) / 2;
-        XYSeries theoreticalSeries = new XYSeries("Theoretical Probability");
+        //TODO: Theoretical Probability Curve
 
-        //Sets Range of Probability Curve
-        //TODO: Fix range offset
-        double xAxisStart = inputPanel.getPStart();
-        double xAxisEnd = inputPanel.getPEnd();
-
-        //FIXME: Fix this padding
-        double theoryPadding = (xAxisEnd - xAxisStart) * 0.05;
-        double theoryStart = Math.max(0, xAxisStart - theoryPadding);
-        double theoryEnd = Math.min(1.0, xAxisEnd + theoryPadding);
-
-        for (double p = theoryStart; p <= theoryEnd; p += 0.001) {
-            double probability = 1 - Math.pow(1 - p, nChoose2);
-            theoreticalSeries.add(p, probability);
-
-            if (probability < minProportion) minProportion = probability;
-            if (probability > maxProportion) maxProportion = probability;
-        }
-
-        XYSeriesCollection theoreticalDataset = new XYSeriesCollection();
-        theoreticalDataset.addSeries(theoreticalSeries);
-
-        //Creates Chart
+        //Create Chart
         chart = ChartFactory.createXYLineChart(
-                "Edge Existence for G(" + n + ", p)",
+                "Triangle Existence for G(" + n + ", p)",
                 "p value",
-                "Proportion of Graphs with Edges",
+                "Proportion of Graphs with Triangles",
                 trueProportionsDataset,
                 PlotOrientation.VERTICAL,
                 true,
@@ -159,10 +138,7 @@ public class EdgeChartPanel extends JPanel {
         //CONFIGURING PLOT
         XYPlot plot = (XYPlot) chart.getPlot();
 
-        //Theoretical Probability Curve
-        plot.setDataset(1, theoreticalDataset);
-        plot.setRenderer(1, new XYLineAndShapeRenderer(true, false));
-        plot.getRenderer(1).setSeriesPaint(0, Color.RED);
+        //TODO: Theoretical Probability Curve
 
         //Plot Data Points of True Proportions
         XYLineAndShapeRenderer empiricalRenderer = new XYLineAndShapeRenderer(false, true);
