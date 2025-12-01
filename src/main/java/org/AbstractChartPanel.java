@@ -40,7 +40,7 @@ public abstract class AbstractChartPanel extends JPanel {
         add(chartPanel, BorderLayout.CENTER);
     }
 
-    private JFreeChart createEmptyChart() {
+    public JFreeChart createEmptyChart() {
         XYSeriesCollection dataset = new XYSeriesCollection();
 
         return ChartFactory.createXYLineChart(

@@ -118,6 +118,49 @@ public class Graph {
         return visitedCount == n;
     }
 
+    public boolean hasHamiltonianCycle() {
+        if (n <= 2) return false;
+        if (!isConnected()) return false;
+
+        boolean hasMinimumDegree = true;
+        for (int i = 0; i < n; i++) {
+            if (getDegree(i) < n / 2) {
+                hasMinimumDegree = false;
+                break;
+            }
+        }
+        if (hasMinimumDegree) return true;
+
+        int[] path = new int[n];
+        boolean[] visited = new boolean[n];
+
+        path[0] = 0;
+        visited[0] = true;
+
+        return hasHamiltonianCycleHelper(path, visited, 1);
+    }
+
+    //TODO: Optimize this function (possibly with memoization?)
+    private boolean hasHamiltonianCycleHelper(int[] path, boolean[] visited, int pos) {
+        //Base Case: All Positions in Path are Filled
+        if (pos == n) { return hasEdge(path[pos - 1], path[0]);}
+
+        //Recursively find Hamiltonian Cycle if Possible
+        for (int v : getNeighbors(path[pos - 1])) {
+            if (!visited[v]) {
+                visited[v] = true;
+                path[pos] = v;
+
+                if (hasHamiltonianCycleHelper(path, visited, pos + 1)) return true;
+
+                // Backtrack
+                visited[v] = false;
+            }
+        }
+
+        return false;
+    }
+
     public Set<Integer> getNeighbors(int vertex) {
         if (vertex < 0 || vertex >= n) {
             throw new IllegalArgumentException("Vertex index out of bounds: " + vertex);
