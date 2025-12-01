@@ -94,6 +94,30 @@ public class Graph {
         return false;
     }
 
+    public boolean isConnected() {
+        if (n <= 1) return true;
+
+        boolean[] visited = new boolean[n];
+        Queue<Integer> queue = new LinkedList<>();
+
+        queue.add(0);
+        visited[0] = true;
+        int visitedCount = 1;
+
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            for (int neighbor : getNeighbors(current)) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    visitedCount++;
+                    queue.add(neighbor);
+                }
+            }
+        }
+
+        return visitedCount == n;
+    }
+
     public Set<Integer> getNeighbors(int vertex) {
         if (vertex < 0 || vertex >= n) {
             throw new IllegalArgumentException("Vertex index out of bounds: " + vertex);

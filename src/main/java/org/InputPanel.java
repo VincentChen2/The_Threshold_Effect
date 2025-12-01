@@ -100,9 +100,9 @@ public class InputPanel extends JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.insets = new Insets(15, 5, 5, 5); // Extra top margin
+        gridBagConstraints.insets = new Insets(15, 5, 5, 5);
         generateButton = new JButton("Generate Graphs");
-        generateButton.setPreferredSize(new Dimension(200, 35)); // Larger button
+        generateButton.setPreferredSize(new Dimension(200, 35));
         generateButton.addActionListener(new GenerateButtonListener());
         assert generateButton != null;
         add(generateButton, gridBagConstraints);
@@ -149,7 +149,7 @@ public class InputPanel extends JPanel {
 
         //Graphs per p Spinner
         graphsPerPSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
-        graphsPerPSpinner.setPreferredSize(new Dimension(60, graphsPerPSpinner.getPreferredSize().height));
+        graphsPerPSpinner.setPreferredSize(new Dimension(65, graphsPerPSpinner.getPreferredSize().height));
         panel.add(graphsPerPSpinner);
 
         return panel;

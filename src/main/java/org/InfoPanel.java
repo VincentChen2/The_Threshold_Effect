@@ -8,6 +8,7 @@ public class InfoPanel extends JPanel {
     private EdgeChartPanel edgeChartPanel;
     private TriangleChartPanel triangleChartPanel;
     private K4ChartPanel k4ChartPanel;
+    private ConnectednessChartPanel connectednessChartPanel;
 
     public InfoPanel(GraphController controller) {
         this.controller = controller;
@@ -23,14 +24,14 @@ public class InfoPanel extends JPanel {
         //Panels
         edgeChartPanel = new EdgeChartPanel(controller);
         triangleChartPanel = new TriangleChartPanel(controller);
-        JPanel connectednessPanel = new JPanel();
+        connectednessChartPanel  = new ConnectednessChartPanel(controller);
         k4ChartPanel = new K4ChartPanel(controller);
         JPanel hamiltonianCyclePanel = new JPanel();
 
         //Tabs
         tabbedPane.addTab("Edge", edgeChartPanel);
         tabbedPane.addTab("Triangle Subgraph", triangleChartPanel);
-        tabbedPane.addTab("Connectedness", connectednessPanel);
+        tabbedPane.addTab("Connectedness", connectednessChartPanel);
         tabbedPane.addTab("K4 Subgraph", k4ChartPanel);
         tabbedPane.addTab("Hamiltonian Cycle", hamiltonianCyclePanel);
 
@@ -44,5 +45,6 @@ public class InfoPanel extends JPanel {
         edgeChartPanel.updateChart();
         triangleChartPanel.updateChart();
         k4ChartPanel.updateChart();
+        connectednessChartPanel.updateChart();
     }
 }
