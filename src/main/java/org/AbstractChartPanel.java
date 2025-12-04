@@ -7,6 +7,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.plot.ValueMarker;
+import org.jfree.chart.ui.RectangleAnchor;
+import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -172,7 +175,25 @@ public abstract class AbstractChartPanel extends JPanel {
 
         yAxis.setRange(yMin, yMax);
 
+        //Add critical p-value marker if applicable
+        addThresholdMarker(plot, n);
+
         chartPanel.setChart(chart);
+    }
+
+    protected void addThresholdMarker(XYPlot plot, int n) {
+        Double threshold = calculateThresholdValue(n);
+        if (threshold != null && threshold > 0 && threshold <= 1) {
+            ValueMarker thresholdMarker = new ValueMarker(threshold);
+            thresholdMarker.setPaint(Color.GREEN);
+            thresholdMarker.setStroke(new BasicStroke(2.0f));
+            thresholdMarker.setLabel("p_critical = " + String.format("%.4f", threshold));
+            thresholdMarker.setLabelPaint(Color.GREEN);
+            thresholdMarker.setLabelAnchor(RectangleAnchor.CENTER);
+            thresholdMarker.setLabelTextAnchor(TextAnchor.CENTER);
+
+            plot.addDomainMarker(thresholdMarker);
+        }
     }
 
     //Abstract Methods
@@ -181,8 +202,12 @@ public abstract class AbstractChartPanel extends JPanel {
     protected abstract String getYAxisLabel();
     protected abstract boolean hasProperty(Graph graph);
 
-    //Optional Abstract Method (probably will make this mandatory later)
+    //Optional Abstract Methods (probably will make this mandatory later)
     protected XYSeries createTheoreticalSeries(int n, double xAxisStart, double xAxisEnd) {
+        return null;
+    }
+
+    protected Double calculateThresholdValue(int n) {
         return null;
     }
 }

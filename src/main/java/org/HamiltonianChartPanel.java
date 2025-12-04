@@ -2,6 +2,7 @@ package org;
 
 import org.jfree.data.xy.XYSeries;
 import javax.swing.JLabel;
+import java.awt.*;
 
 public class HamiltonianChartPanel extends AbstractChartPanel {
     private JLabel warningLabel;
@@ -15,9 +16,9 @@ public class HamiltonianChartPanel extends AbstractChartPanel {
     private void addWarningLabel() {
         warningLabel = new JLabel("Note: Hamiltonian cycle detection disabled for n > " + MAX_N_FOR_HAMILTONIAN);
         warningLabel.setHorizontalAlignment(JLabel.CENTER);
-        warningLabel.setForeground(java.awt.Color.RED);
+        warningLabel.setForeground(Color.RED);
         warningLabel.setVisible(false);
-        add(warningLabel, java.awt.BorderLayout.NORTH);
+        add(warningLabel, BorderLayout.NORTH);
     }
 
     @Override

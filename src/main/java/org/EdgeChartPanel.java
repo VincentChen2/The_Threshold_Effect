@@ -44,4 +44,13 @@ public class EdgeChartPanel extends AbstractChartPanel {
 
         return theoreticalSeries;
     }
+
+    @Override
+    protected Double calculateThresholdValue(int n) {
+        if (n < 2) return 1.0;
+        double nChoose2 = (double) (n * (n - 1)) / 2.0;
+        if (nChoose2 <= 0) return 1.0;
+
+        return 1.0 - Math.pow(0.5, 1.0 / nChoose2);
+    }
 }
