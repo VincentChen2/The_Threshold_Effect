@@ -1,7 +1,5 @@
 package org;
 
-import org.jfree.data.xy.XYSeries;
-
 public class ConnectednessChartPanel extends AbstractChartPanel {
 
     public ConnectednessChartPanel(GraphController controller) {
@@ -29,8 +27,7 @@ public class ConnectednessChartPanel extends AbstractChartPanel {
     }
 
     @Override
-    protected XYSeries createTheoreticalSeries(int n, double xAxisStart, double xAxisEnd) {
-        // TODO: Implement theoretical probability for graph connectedness
-        return null;
+    protected Double calculateThresholdValue(int n) {
+        return Math.log(n)/n;
     }
 }

@@ -70,7 +70,7 @@ public class InputPanel extends JPanel {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 1;
-        JSpinner nManualSpinner = new JSpinner(new SpinnerNumberModel(10, 0, 10000, 1));
+        JSpinner nManualSpinner = new JSpinner(new SpinnerNumberModel(10, 0, 1000, 1));
         nManualSpinner.setPreferredSize(new Dimension(100, nManualSpinner.getPreferredSize().height));
         add(nManualSpinner, gridBagConstraints);
 

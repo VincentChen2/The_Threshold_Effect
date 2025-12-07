@@ -1,7 +1,5 @@
 package org;
 
-import org.jfree.data.xy.XYSeries;
-
 public class TriangleChartPanel extends AbstractChartPanel {
 
     public TriangleChartPanel(GraphController controller) {
@@ -29,8 +27,9 @@ public class TriangleChartPanel extends AbstractChartPanel {
     }
 
     @Override
-    protected XYSeries createTheoreticalSeries(int n, double xAxisStart, double xAxisEnd) {
-        //TODO: Implement theoretical probability for triangle existence
-        return null;
+    protected Double calculateThresholdValue(int n) {
+        if (n < 3) return 1.0;
+        double nChoose3 = n * (n-1) * (n-2) / 6.0;
+        return Math.pow(1.0 / nChoose3, 1.0/3.0);
     }
 }

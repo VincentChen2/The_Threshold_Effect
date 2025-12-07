@@ -1,7 +1,5 @@
 package org;
 
-import org.jfree.data.xy.XYSeries;
-
 public class K4ChartPanel extends AbstractChartPanel {
 
     public K4ChartPanel(GraphController controller) {
@@ -29,8 +27,9 @@ public class K4ChartPanel extends AbstractChartPanel {
     }
 
     @Override
-    protected XYSeries createTheoreticalSeries(int n, double xAxisStart, double xAxisEnd) {
-        // TODO: Implement theoretical probability for K4 existence
-        return null;
+    protected Double calculateThresholdValue(int n) {
+        if (n < 4) return 1.0;
+        double nChoose4 = n * (n-1) * (n-2) * (n-3) / 24.0;
+        return Math.pow(1.0 / nChoose4, 1.0/6.0);
     }
 }

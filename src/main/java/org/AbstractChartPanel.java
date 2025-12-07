@@ -187,7 +187,7 @@ public abstract class AbstractChartPanel extends JPanel {
             ValueMarker thresholdMarker = new ValueMarker(threshold);
             thresholdMarker.setPaint(Color.GREEN);
             thresholdMarker.setStroke(new BasicStroke(2.0f));
-            thresholdMarker.setLabel("p_critical = " + String.format("%.4f", threshold));
+            thresholdMarker.setLabel("Threshold (p) = " + String.format("%.4f", threshold));
             thresholdMarker.setLabelPaint(Color.GREEN);
             thresholdMarker.setLabelAnchor(RectangleAnchor.CENTER);
             thresholdMarker.setLabelTextAnchor(TextAnchor.CENTER);

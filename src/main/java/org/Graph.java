@@ -57,6 +57,8 @@ public class Graph {
     }
 
     public boolean hasTriangle() {
+        if (n < 3) return false;
+
         for (int u = 0; u < n; u++) {
             if (getDegree(u) < 2) continue;
 
@@ -72,6 +74,8 @@ public class Graph {
     }
 
     public boolean hasK4() {
+        if (n < 4) return false;
+
         for (int u = 0; u < n; u++) {
             if (getDegree(u) < 3) continue;
 
