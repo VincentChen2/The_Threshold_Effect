@@ -1,5 +1,10 @@
 package org;
 
+import org.GraphComponents.GraphController;
+import org.Panels.InfoPanel;
+import org.Panels.InputPanel;
+import org.Panels.StatusPanel;
+
 import javax.swing.*;
 import java.awt.*;
 

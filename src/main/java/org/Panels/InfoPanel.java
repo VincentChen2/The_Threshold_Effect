@@ -1,4 +1,7 @@
-package org;
+package org.Panels;
+
+import org.GraphComponents.GraphController;
+import org.Panels.ChartPanels.*;
 
 import javax.swing.*;
 import java.awt.*;

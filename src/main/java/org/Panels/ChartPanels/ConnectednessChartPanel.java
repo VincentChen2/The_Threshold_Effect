@@ -1,4 +1,7 @@
-package org;
+package org.Panels.ChartPanels;
+
+import org.GraphComponents.Graph;
+import org.GraphComponents.GraphController;
 
 public class ConnectednessChartPanel extends AbstractChartPanel {
 

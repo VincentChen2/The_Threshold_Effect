@@ -1,5 +1,8 @@
-package org;
+package org.Panels.ChartPanels;
 
+import org.GraphComponents.Graph;
+import org.GraphComponents.GraphController;
+import org.Panels.InputPanel;
 import org.jfree.data.xy.XYSeries;
 import javax.swing.JLabel;
 import java.awt.*;

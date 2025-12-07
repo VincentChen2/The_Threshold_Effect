@@ -1,4 +1,4 @@
-package org;
+package org.GraphComponents;
 
 public class GraphProgressUpdate {
     String message;

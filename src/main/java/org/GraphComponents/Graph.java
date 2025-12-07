@@ -1,4 +1,4 @@
-package org;
+package org.GraphComponents;
 
 import java.util.*;
 import java.util.function.Consumer;

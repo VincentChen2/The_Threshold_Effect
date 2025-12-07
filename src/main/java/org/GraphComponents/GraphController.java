@@ -1,4 +1,8 @@
-package org;
+package org.GraphComponents;
+
+import org.Panels.InfoPanel;
+import org.Panels.InputPanel;
+import org.Panels.StatusPanel;
 
 import javax.swing.*;
 import java.util.ArrayList;

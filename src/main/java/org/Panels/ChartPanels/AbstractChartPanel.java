@@ -1,5 +1,8 @@
-package org;
+package org.Panels.ChartPanels;
 
+import org.GraphComponents.Graph;
+import org.GraphComponents.GraphController;
+import org.Panels.InputPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;

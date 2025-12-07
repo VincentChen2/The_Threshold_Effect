@@ -1,5 +1,7 @@
-package org;
+package org.Panels.ChartPanels;
 
+import org.GraphComponents.Graph;
+import org.GraphComponents.GraphController;
 import org.jfree.data.xy.XYSeries;
 
 public class EdgeChartPanel extends AbstractChartPanel {
