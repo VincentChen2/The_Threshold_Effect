@@ -10,10 +10,6 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
     public MainFrame() {
-        initializeUI();
-    }
-
-    private void initializeUI() {
         setTitle("Graph Generator");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -39,6 +35,5 @@ public class MainFrame extends JFrame {
 
         setContentPane(mainPanel);
         setMinimumSize(new Dimension(800, 600));
-        setLocationRelativeTo(null);
-    }
+        setLocationRelativeTo(null);    }
 }
