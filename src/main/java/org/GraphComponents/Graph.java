@@ -85,13 +85,13 @@ public class Graph {
                 if (v <= u) continue;
                 if (getDegree(v) < 3) continue;
 
-                Set<Integer> UnionUV = new HashSet<>(neighborsU);
-                UnionUV.retainAll(getNeighbors(v));
+                Set<Integer> IntersectionUV = new HashSet<>(neighborsU);
+                IntersectionUV.retainAll(getNeighbors(v));
 
-                for (int w : UnionUV) {
+                for (int w : IntersectionUV) {
                     if (w <= v) continue;
                     if (getDegree(w) < 3) continue;
-                    if (!Collections.disjoint(UnionUV, getNeighbors(w))) return true;
+                    if (!Collections.disjoint(IntersectionUV, getNeighbors(w))) return true;
                 }
             }
         }
