@@ -35,4 +35,19 @@ public class K4ChartPanel extends AbstractChartPanel {
         double nChoose4 = n * (n-1) * (n-2) * (n-3) / 24.0;
         return Math.pow(1.0 / nChoose4, 1.0/6.0);
     }
+
+
+    @Override
+    protected Double calculateLowerBoundValue(int n) {
+        if (n < 4) return 1.0;
+        double nChoose4 = n * (n-1) * (n-2) * (n-3) / 24.0;
+        return Math.pow(0.1 / nChoose4, 1.0/6.0);
+    }
+
+    @Override
+    protected Double calculateUpperBoundValue(int n) {
+        if (n < 4) return 1.0;
+        double nChoose4 = n * (n-1) * (n-2) * (n-3) / 24.0;
+        return Math.pow(5.0 / nChoose4, 1.0/6.0);
+    }
 }

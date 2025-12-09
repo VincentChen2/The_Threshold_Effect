@@ -35,4 +35,18 @@ public class TriangleChartPanel extends AbstractChartPanel {
         double nChoose3 = n * (n-1) * (n-2) / 6.0;
         return Math.pow(1.0 / nChoose3, 1.0/3.0);
     }
+
+    @Override
+    protected Double calculateLowerBoundValue(int n) {
+        if (n < 3) return 1.0;
+        double nChoose3 = n * (n-1) * (n-2) / 6.0;
+        return Math.pow(0.1 / nChoose3, 1.0/3.0);
+    }
+
+    @Override
+    protected Double calculateUpperBoundValue(int n) {
+        if (n < 3) return 1.0;
+        double nChoose3 = n * (n-1) * (n-2) / 6.0;
+        return Math.pow(5.0 / nChoose3, 1.0/3.0);
+    }
 }
