@@ -55,4 +55,22 @@ public class EdgeChartPanel extends AbstractChartPanel {
 
         return 1.0 - Math.pow(0.5, 1.0 / nChoose2);
     }
+
+    @Override
+    protected Double calculateLowerBoundValue(int n) {
+        if (n < 2) return 1.0;
+        double nChoose2 = (double) (n * (n - 1)) / 2.0;
+        if (nChoose2 <= 0) return 1.0;
+
+        return 1.0 - Math.pow(0.95, 1.0 / nChoose2);
+    }
+
+    @Override
+    protected Double calculateUpperBoundValue(int n) {
+        if (n < 2) return 1.0;
+        double nChoose2 = (double) (n * (n - 1)) / 2.0;
+        if (nChoose2 <= 0) return 1.0;
+
+        return 1.0 - Math.pow(0.05, 1.0 / nChoose2);
+    }
 }
