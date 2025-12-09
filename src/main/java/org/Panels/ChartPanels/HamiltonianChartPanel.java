@@ -3,7 +3,6 @@ package org.Panels.ChartPanels;
 import org.GraphComponents.Graph;
 import org.GraphComponents.GraphController;
 import org.Panels.InputPanel;
-import org.jfree.data.xy.XYSeries;
 import javax.swing.JLabel;
 import java.awt.*;
 
@@ -45,15 +44,6 @@ public class HamiltonianChartPanel extends AbstractChartPanel {
             return false;
         }
         return graph.hasHamiltonianCycle();
-    }
-
-    @Override
-    protected XYSeries createTheoreticalSeries(int n, double xAxisStart, double xAxisEnd) {
-        if (n > MAX_N_FOR_HAMILTONIAN) {
-            return null;
-        }
-        // TODO: Implement theoretical probability for Hamiltonian cycle existence
-        return null;
     }
 
     @Override
