@@ -31,6 +31,19 @@ public class ConnectednessChartPanel extends AbstractChartPanel {
 
     @Override
     protected Double calculateThresholdValue(int n) {
+        if (n <= 1) return 0.0;
         return Math.log(n)/n;
+    }
+
+    @Override
+    protected Double calculateLowerBoundValue(int n) {
+        if (n <= 1) return 0.0;
+        return 0.5 * Math.log(n)/n;
+    }
+
+    @Override
+    protected Double calculateUpperBoundValue(int n) {
+        if (n <= 1) return 0.0;
+        return 2.0 * Math.log(n)/n;
     }
 }
