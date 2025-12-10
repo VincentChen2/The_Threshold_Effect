@@ -2,7 +2,6 @@ package org.Panels.ChartPanels;
 
 import org.GraphComponents.Graph;
 import org.GraphComponents.GraphController;
-import org.jfree.data.xy.XYSeries;
 
 public class EdgeChartPanel extends AbstractChartPanel {
 
@@ -28,23 +27,6 @@ public class EdgeChartPanel extends AbstractChartPanel {
     @Override
     protected boolean hasProperty(Graph graph) {
         return graph.hasAnyEdge();
-    }
-
-    @Override
-    protected XYSeries createTheoreticalSeries(int n, double xAxisStart, double xAxisEnd) {
-        double nChoose2 = (double) (n * (n - 1)) / 2;
-        XYSeries theoreticalSeries = new XYSeries("Theoretical Probability");
-
-        double theoryPadding = (xAxisEnd - xAxisStart) * 0.05;
-        double theoryStart = Math.max(0, xAxisStart - theoryPadding);
-        double theoryEnd = Math.min(1.0, xAxisEnd + theoryPadding);
-
-        for (double p = theoryStart; p <= theoryEnd; p += 0.001) {
-            double probability = 1 - Math.pow(1 - p, nChoose2);
-            theoreticalSeries.add(p, probability);
-        }
-
-        return theoreticalSeries;
     }
 
     @Override

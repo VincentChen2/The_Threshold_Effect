@@ -142,18 +142,6 @@ public abstract class AbstractChartPanel extends JPanel {
         //CONFIGURING PLOT
         XYPlot plot = (XYPlot) chart.getPlot();
 
-        //Add Theoretical Curve if Available
-        XYSeries theoreticalSeries = createTheoreticalSeries(n, xAxisStart, xAxisEnd);
-        if (theoreticalSeries != null && theoreticalSeries.getItemCount() > 0) {
-            XYSeriesCollection theoreticalDataset = new XYSeriesCollection();
-            theoreticalDataset.addSeries(theoreticalSeries);
-
-            plot.setDataset(1, theoreticalDataset);
-            XYLineAndShapeRenderer theoreticalRenderer = new XYLineAndShapeRenderer(true, false);
-            theoreticalRenderer.setSeriesPaint(0, Color.RED);
-            plot.setRenderer(1, theoreticalRenderer);
-        }
-
         //Plot Data Points of True Proportions
         XYLineAndShapeRenderer TrueRenderer = new XYLineAndShapeRenderer(false, true);
         TrueRenderer.setSeriesShape(0, new Ellipse2D.Double(-3, -3, 6, 6));
@@ -206,10 +194,6 @@ public abstract class AbstractChartPanel extends JPanel {
     protected abstract boolean hasProperty(Graph graph);
 
     //Optional Abstract Methods
-    protected XYSeries createTheoreticalSeries(int n, double xAxisStart, double xAxisEnd) {
-        return null;
-    }
-
     protected Double calculateThresholdValue(int n) {
         return null;
     }
