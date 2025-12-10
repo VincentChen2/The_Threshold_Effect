@@ -181,9 +181,6 @@ public abstract class AbstractChartPanel extends JPanel {
         //Add critical p-value marker if applicable
         addThresholdMarker(plot, n);
 
-        //Add bounds markers if applicable
-        addBoundsMarkers(plot, n);
-
         chartPanel.setChart(chart);
     }
 
@@ -202,43 +199,6 @@ public abstract class AbstractChartPanel extends JPanel {
         }
     }
 
-    protected void addBoundsMarkers(XYPlot plot, int n) {
-        Double lowerBound = calculateLowerBoundValue(n);
-        Double upperBound = calculateUpperBoundValue(n);
-
-        //Lower bound marker
-        if (lowerBound != null && lowerBound > 0 && lowerBound <= 1) {
-            ValueMarker lowerMarker = new ValueMarker(lowerBound);
-            lowerMarker.setPaint(Color.MAGENTA);
-            lowerMarker.setStroke(new BasicStroke(
-                    1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
-                    10.0f, new float[]{5.0f, 3.0f}, 0.0f
-            ));
-            lowerMarker.setLabel("Lower Bound = " + String.format("%.4f", lowerBound));
-            lowerMarker.setLabelPaint(Color.MAGENTA);
-            lowerMarker.setLabelAnchor(RectangleAnchor.CENTER);
-            lowerMarker.setLabelTextAnchor(TextAnchor.CENTER);
-
-            plot.addDomainMarker(lowerMarker);
-        }
-
-        //Upper bound marker
-        if (upperBound != null && upperBound > 0 && upperBound <= 1) {
-            ValueMarker upperMarker = new ValueMarker(upperBound);
-            upperMarker.setPaint(Color.MAGENTA);
-            upperMarker.setStroke(new BasicStroke(
-                    1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
-                    10.0f, new float[]{5.0f, 3.0f}, 0.0f
-            ));
-            upperMarker.setLabel("Upper Bound = " + String.format("%.4f", upperBound));
-            upperMarker.setLabelPaint(Color.MAGENTA);
-            upperMarker.setLabelAnchor(RectangleAnchor.CENTER);
-            upperMarker.setLabelTextAnchor(TextAnchor.CENTER);
-
-            plot.addDomainMarker(upperMarker);
-        }
-    }
-
     //Abstract Methods
     protected abstract String getChartTitle();
     protected abstract String getXAxisLabel();
@@ -251,14 +211,6 @@ public abstract class AbstractChartPanel extends JPanel {
     }
 
     protected Double calculateThresholdValue(int n) {
-        return null;
-    }
-
-    protected Double calculateLowerBoundValue(int n) {
-        return null;
-    }
-
-    protected Double calculateUpperBoundValue(int n) {
         return null;
     }
 }

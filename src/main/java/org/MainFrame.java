@@ -35,5 +35,6 @@ public class MainFrame extends JFrame {
 
         setContentPane(mainPanel);
         setMinimumSize(new Dimension(800, 600));
-        setLocationRelativeTo(null);    }
+        setLocationRelativeTo(null);
+    }
 }
